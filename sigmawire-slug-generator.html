@@ -1,0 +1,106 @@
+<div class="slug-container">
+    <input type="text" class="slug-input" placeholder="Insert your title or paragraph here">
+    <div class="slug-options">
+      <label><input type="radio" name="slugFormat" value="-" checked onclick="changeLabelColor(this)"> Dash( - )</label>
+      <label><input type="radio" name="slugFormat" value="_" onclick="changeLabelColor(this)"> Underscore( _ )</label>
+      <label><input type="radio" name="slugFormat" value="." onclick="changeLabelColor(this)"> Dot( . )</label>
+      <label><input type="radio" name="slugFormat" value="/" onclick="changeLabelColor(this)"> Slash( / )</label>
+    </div>
+    <button class="slug-button" id="slug-button1" onclick="generateSlug()">Generate Slug</button>
+    <button class="slug-button" id="slug-button2" onclick="resetForm()">Reset</button>
+    <div class="slug-output"></div>
+  <p>copyright sigmawire created by kukitakasi</p>
+  </div>
+  
+  <style>
+    .slug-container {
+      max-width: 1140px;
+      padding: 20px;
+      border: 1px solid #ffbebe;
+      border-radius: 5px;
+      font-family: Arial, sans-serif;
+    }
+    #slug-button1{ width: 70%; } 
+    #slug-button2{ margin-left: 10px; width: 20%; } 
+    .slug-button {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  
+    .slug-input, .slug-options, .slug-output {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ffbebe;
+    }
+  
+    .slug-options label {
+      margin-right: 10px;
+      color: black;
+    }
+  
+    .slug-output {
+      word-wrap: break-word;
+    }
+  
+    #copyButton {
+      display: block;
+      margin-top: 20px;
+      width: 90%; 
+      border-radius: 5px;
+      background-color: transparent;
+      color: #d51f57;
+    }
+  </style>
+  
+  <script>
+  function generateSlug() {
+    var inputText = document.querySelector(".slug-input").value.toLowerCase();
+    var slugFormat = document.querySelector('input[name="slugFormat"]:checked').value;
+    
+    var slug = inputText.replace(/\s+/g, slugFormat);
+    
+    var outputDiv = document.querySelector(".slug-output");
+    outputDiv.innerHTML = slug;
+  
+    // Check if copy button already exists, if not, create it
+    if (!document.getElementById("copyButton")) {
+      var copyButton = document.createElement("button");
+      copyButton.textContent = "Copy";
+      copyButton.id = "copyButton";
+      copyButton.onclick = function() {
+        var textarea = document.createElement("textarea");
+        textarea.value = slug;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+  
+        // Change button text to "Copied"
+        copyButton.textContent = "Copied";
+        setTimeout(function() {
+          copyButton.textContent = "Copy";
+        }, 2000); // Change back to "Copy" after 2 seconds
+      };
+      outputDiv.appendChild(copyButton);
+    }
+  }
+  
+  function resetForm() {
+    document.querySelector(".slug-input").value = "";
+    document.querySelector(".slug-output").innerHTML = "";
+  }
+  
+  function changeLabelColor(element) {
+    var labels = document.querySelectorAll('.slug-options label');
+    labels.forEach(function(label) {
+      label.style.color = "black";
+    });
+    element.parentNode.style.color = "#d51f57";
+  }
+  </script>
+  
